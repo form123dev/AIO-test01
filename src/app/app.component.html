@@ -1,21 +1,74 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div id="top-of-page"></div>
 
-<router-outlet></router-outlet>
+<div *ngIf="isFetching" class="progress-bar-container">
+  <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
+</div>
+
+<mat-toolbar color="primary" class="app-toolbar no-print" [class.transitioning]="isTransitioning">
+  <mat-toolbar-row class="notification-container">
+    <aio-notification
+      notificationId="angular-v6-announcement"
+      expirationDate="2018-07-01"
+      [dismissOnContentClick]="true"
+      (dismissed)="notificationDismissed()">
+      <a href="https://blog.angular.io/version-6-0-0-of-angular-now-available-cc56b0efa7a4">
+        <mat-icon class="icon" svgIcon="insert_comment" aria-label="Announcement"></mat-icon>
+        <span class="message">Version 6 of Angular Now Available!</span>
+        <span class="action-button">Learn More</span>
+      </a>
+    </aio-notification>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <button mat-button class="hamburger" [class.starting]="isStarting" (click)="sidenav.toggle()" title="Docs menu">
+      <mat-icon svgIcon="menu"></mat-icon>
+    </button>
+    <a class="nav-link home" href="/" [ngSwitch]="isSideBySide">
+      <img *ngSwitchCase="true" src="assets/images/logos/angular/logo-nav@2x.png" width="150" height="40" title="Home" alt="Home">
+      <img *ngSwitchDefault src="assets/images/logos/angular/shield-large.svg" width="37" height="40" title="Home" alt="Home">
+    </a>
+    <aio-top-menu *ngIf="isSideBySide" [nodes]="topMenuNodes"></aio-top-menu>
+    <aio-search-box class="search-container" #searchBox (onSearch)="doSearch($event)" (onFocus)="doSearch($event)"></aio-search-box>
+    <div class="toolbar-external-icons-container">
+      <a  href="https://twitter.com/angular" title="Twitter">
+        <img src="assets/images/logos/twitter-icon.svg"></a>
+      <a  href="https://github.com/angular/angular" title="GitHub">
+        <img src="assets/images/logos/github-icon.svg"></a>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<aio-search-results #searchResultsView *ngIf="showSearchResults" [searchResults]="searchResults | async" (resultSelected)="hideSearchResults()"></aio-search-results>
+
+<mat-sidenav-container class="sidenav-container" [class.starting]="isStarting" [class.has-floating-toc]="hasFloatingToc" role="main">
+
+  <mat-sidenav [ngClass]="{'collapsed': !isSideBySide}" #sidenav class="sidenav" [mode]="mode" [opened]="isOpened" (openedChange)="updateHostClasses()">
+    <aio-nav-menu *ngIf="!isSideBySide" [nodes]="topMenuNarrowNodes" [currentNode]="currentNodes?.TopBarNarrow" [isWide]="false"></aio-nav-menu>
+    <aio-nav-menu [nodes]="sideNavNodes" [currentNode]="currentNodes?.SideNav" [isWide]="isSideBySide"></aio-nav-menu>
+
+    <div class="doc-version">
+      <aio-select (change)="onDocVersionChange($event.index)" [options]="docVersions" [selected]="currentDocVersion"></aio-select>
+    </div>
+  </mat-sidenav>
+
+  <section class="sidenav-content" [id]="pageId" role="content">
+    <aio-mode-banner [mode]="deployment.mode" [version]="versionInfo"></aio-mode-banner>
+    <aio-doc-viewer [class.no-animations]="isStarting"
+        [doc]="currentDocument"
+        (docReady)="onDocReady()"
+        (docRemoved)="onDocRemoved()"
+        (docInserted)="onDocInserted()"
+        (docRendered)="onDocRendered()">
+    </aio-doc-viewer>
+    <aio-dt [on]="dtOn" [(doc)]="currentDocument"></aio-dt>
+  </section>
+
+</mat-sidenav-container>
+
+<div *ngIf="hasFloatingToc" class="toc-container no-print" [style.max-height.px]="tocMaxHeight" (mousewheel)="restrainScrolling($event)">
+  <aio-lazy-ce selector="aio-toc"></aio-lazy-ce>
+
+</div>
+
+<footer class="no-print">
+  <aio-footer [nodes]="footerNodes" [versionInfo]="versionInfo" ></aio-footer>
+</footer>
