@@ -17,32 +17,32 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppComponent } from 'app/app.component';
  import { CustomIconRegistry, SVG_ICONS } from 'app/shared/custom-icon-registry';
-// import { Deployment } from 'app/shared/deployment.service';
-// import { DocViewerComponent } from 'app/layout/doc-viewer/doc-viewer.component';
-// import { DtComponent } from 'app/layout/doc-viewer/dt.component';
-// import { ModeBannerComponent } from 'app/layout/mode-banner/mode-banner.component';
-// import { GaService } from 'app/shared/ga.service';
-// import { Logger } from 'app/shared/logger.service';
-// import { LocationService } from 'app/shared/location.service';
-// import { NavigationService } from 'app/navigation/navigation.service';
-// import { DocumentService } from 'app/documents/document.service';
-// import { SearchService } from 'app/search/search.service';
-// import { TopMenuComponent } from 'app/layout/top-menu/top-menu.component';
-// import { FooterComponent } from 'app/layout/footer/footer.component';
-// import { NavMenuComponent } from 'app/layout/nav-menu/nav-menu.component';
-// import { NavItemComponent } from 'app/layout/nav-item/nav-item.component';
-// import { ReportingErrorHandler } from 'app/shared/reporting-error-handler';
-// import { ScrollService } from 'app/shared/scroll.service';
-// import { ScrollSpyService } from 'app/shared/scroll-spy.service';
-// import { SearchBoxComponent } from 'app/search/search-box/search-box.component';
-// import { NotificationComponent } from 'app/layout/notification/notification.component';
-// import { TocService } from 'app/shared/toc.service';
-// import { CurrentDateToken, currentDateProvider } from 'app/shared/current-date';
-// import { WindowToken, windowProvider } from 'app/shared/window';
+import { Deployment } from 'app/shared/deployment.service';
+import { DocViewerComponent } from 'app/layout/doc-viewer/doc-viewer.component';
+import { DtComponent } from 'app/layout/doc-viewer/dt.component';
+import { ModeBannerComponent } from 'app/layout/mode-banner/mode-banner.component';
+import { GaService } from 'app/shared/ga.service';
+import { Logger } from 'app/shared/logger.service';
+import { LocationService } from 'app/shared/location.service';
+import { NavigationService } from 'app/navigation/navigation.service';
+import { DocumentService } from 'app/documents/document.service';
+import { SearchService } from 'app/search/search.service';
+import { TopMenuComponent } from 'app/layout/top-menu/top-menu.component';
+import { FooterComponent } from 'app/layout/footer/footer.component';
+import { NavMenuComponent } from 'app/layout/nav-menu/nav-menu.component';
+import { NavItemComponent } from 'app/layout/nav-item/nav-item.component';
+import { ReportingErrorHandler } from 'app/shared/reporting-error-handler';
+import { ScrollService } from 'app/shared/scroll.service';
+import { ScrollSpyService } from 'app/shared/scroll-spy.service';
+import { SearchBoxComponent } from 'app/search/search-box/search-box.component';
+import { NotificationComponent } from 'app/layout/notification/notification.component';
+import { TocService } from 'app/shared/toc.service';
+import { CurrentDateToken, currentDateProvider } from 'app/shared/current-date';
+import { WindowToken, windowProvider } from 'app/shared/window';
 
-// import { CustomElementsModule } from 'app/custom-elements/custom-elements.module';
-// import { SharedModule } from 'app/shared/shared.module';
-// import { SwUpdatesModule } from 'app/sw-updates/sw-updates.module';
+import { CustomElementsModule } from 'app/custom-elements/custom-elements.module';
+import { SharedModule } from 'app/shared/shared.module';
+import { SwUpdatesModule } from 'app/sw-updates/sw-updates.module';
 
 import { environment } from '../environments/environment';
 
@@ -115,49 +115,49 @@ export const svgIconProviders = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    // CustomElementsModule,     // 여기에서 기타 모듈을 설정한다.
+    CustomElementsModule,     // 여기에서 기타 모듈을 설정한다.
     HttpClientModule,
     MatButtonModule,
     MatIconModule,
     MatProgressBarModule,
     MatSidenavModule,
     MatToolbarModule,
-    // SwUpdatesModule,
-    // SharedModule,
+    SwUpdatesModule,
+    SharedModule,
     ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
   ],
   declarations: [
     // reoutingComponents,
     AppComponent,
-    // DocViewerComponent,
-    // DtComponent,
-    // FooterComponent,
-    // ModeBannerComponent,
-    // NavMenuComponent,
-    // NavItemComponent,
-    // SearchBoxComponent,
-    // NotificationComponent,
-    // TopMenuComponent,
+     DocViewerComponent,
+    DtComponent,
+    FooterComponent,
+    ModeBannerComponent,
+    NavMenuComponent,
+    NavItemComponent,
+    SearchBoxComponent,
+    NotificationComponent,
+    TopMenuComponent,
     // TestComponent,
   ],
   providers: [
-    // Deployment,
-    // DocumentService,
-    // { provide: ErrorHandler, useClass: ReportingErrorHandler },
-    // GaService,
-    // Logger,
+    Deployment,
+    DocumentService,
+    { provide: ErrorHandler, useClass: ReportingErrorHandler },
+    GaService,
+    Logger,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
-    // LocationService,
-    // { provide: MatIconRegistry, useClass: CustomIconRegistry },
-    // NavigationService,
-    // ScrollService,
-    // ScrollSpyService,
-    // SearchService,
-    // svgIconProviders,
-    // TocService,
-    // { provide: CurrentDateToken, useFactory: currentDateProvider },
-    // { provide: WindowToken, useFactory: windowProvider },
+    LocationService,
+    { provide: MatIconRegistry, useClass: CustomIconRegistry },
+    NavigationService,
+    ScrollService,
+    ScrollSpyService,
+    SearchService,
+    svgIconProviders,
+    TocService,
+    { provide: CurrentDateToken, useFactory: currentDateProvider },
+    { provide: WindowToken, useFactory: windowProvider },
   ],
   bootstrap: [ AppComponent ]
 })
