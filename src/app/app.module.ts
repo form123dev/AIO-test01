@@ -127,7 +127,6 @@ export const svgIconProviders = [
     ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
   ],
   declarations: [
-    // reoutingComponents,
     AppComponent,
      DocViewerComponent,
     DtComponent,
@@ -138,7 +137,6 @@ export const svgIconProviders = [
     SearchBoxComponent,
     NotificationComponent,
     TopMenuComponent,
-    // TestComponent,
   ],
   providers: [
     Deployment,
